@@ -1,6 +1,25 @@
+import os
+import sys
+import types
 import time
 import uuid
 from contextlib import asynccontextmanager
+
+# Ensure 'backend' module is always resolvable even when cwd is 'backend'
+current_file = os.path.abspath(__file__)
+app_dir = os.path.dirname(current_file)
+backend_dir = os.path.dirname(app_dir)
+repo_root = os.path.dirname(backend_dir)
+for p in [backend_dir, repo_root]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+if "backend" not in sys.modules:
+    backend_pkg = types.ModuleType("backend")
+    backend_pkg.__path__ = [backend_dir]
+    backend_pkg.__file__ = os.path.join(backend_dir, "__init__.py")
+    sys.modules["backend"] = backend_pkg
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.core.config import settings
