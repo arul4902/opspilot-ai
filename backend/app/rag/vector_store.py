@@ -11,7 +11,10 @@ class ChromaVectorStore:
     COLLECTION_NAME = "opspilot_policies"
 
     def __init__(self, persist_directory: Optional[str] = None):
-        self.persist_directory = persist_directory or settings.CHROMA_PERSIST_DIRECTORY
+        target_dir = persist_directory or settings.CHROMA_PERSIST_DIRECTORY
+        if (os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME")) and not str(target_dir).startswith("/tmp"):
+            target_dir = "/tmp/chroma_storage"
+        self.persist_directory = target_dir
         os.makedirs(self.persist_directory, exist_ok=True)
         self.embedding_fn = OpsPilotEmbeddingFunction()
 

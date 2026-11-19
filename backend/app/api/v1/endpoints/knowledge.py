@@ -66,7 +66,8 @@ async def upload_document(
             detail=f"Unsupported file format '{ext}'. Allowed: .pdf, .txt, .md"
         )
 
-    upload_dir = os.path.abspath("./uploads/policies")
+    import tempfile
+    upload_dir = os.path.join(tempfile.gettempdir(), "opspilot_uploads")
     os.makedirs(upload_dir, exist_ok=True)
     temp_path = os.path.join(upload_dir, file.filename)
 
