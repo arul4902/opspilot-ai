@@ -1,0 +1,13 @@
+.app-shell {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+}
+
+.content-body {
+  background-color: var(--bg-canvas);
+}
+
+.sidebar-backdrop {
+  backdrop-filter: blur(2px);
+}
+

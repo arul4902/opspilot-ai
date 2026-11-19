@@ -1,0 +1,355 @@
+{
+  "Business Scenarios": [
+    {
+      "test": "Scenario A - Order Tracking",
+      "status": "PASS",
+      "details": {
+        "intent": "ORDER_TRACKING",
+        "tools": [
+          "get_order_details",
+          "check_delivery_status"
+        ],
+        "response_sample": "Thank you for contacting OpsPilot Support regarding ORD-2024-1001. I have investigated your inquiry against our live dat"
+      },
+      "timestamp": "2026-11-19T03:06:38.481248+00:00"
+    },
+    {
+      "test": "Scenario B - Orphan Payment Detection",
+      "status": "PASS",
+      "details": {
+        "intent": "PAYMENT_DEDUCTED_ORDER_MISSING",
+        "tools": [
+          "get_payment_details",
+          "escalate_to_human"
+        ],
+        "requires_approval": true
+      },
+      "timestamp": "2026-11-19T03:06:39.868242+00:00"
+    },
+    {
+      "test": "Scenario C - Delivery Delay SLA Investigation",
+      "status": "PASS",
+      "details": {
+        "intent": "DELIVERY_DELAY",
+        "tools": [
+          "get_order_details",
+          "check_delivery_status"
+        ],
+        "response_sample": "Thank you for contacting OpsPilot Support regarding ORD-2024-1002. I have investigated your inquiry against our live dat"
+      },
+      "timestamp": "2026-11-19T03:06:41.227501+00:00"
+    },
+    {
+      "test": "Scenario D - Return Authorization Workflow",
+      "status": "PASS",
+      "details": {
+        "intent": "RETURN_REQUEST",
+        "tools": [
+          "get_order_details",
+          "create_return_request"
+        ]
+      },
+      "timestamp": "2026-11-19T03:06:42.561668+00:00"
+    },
+    {
+      "test": "Scenario E - Refund Request HITL Staging",
+      "status": "PASS",
+      "details": {
+        "intent": "REFUND_REQUEST",
+        "requires_approval": true,
+        "approval_request_id": 1
+      },
+      "timestamp": "2026-11-19T03:06:43.930232+00:00"
+    },
+    {
+      "test": "Scenario F - RAG Knowledge Retrieval & Grounding",
+      "status": "PASS",
+      "details": {
+        "top_citation": "return_policy.pdf",
+        "score": 0.531,
+        "results_count": 3
+      },
+      "timestamp": "2026-11-19T03:06:43.944634+00:00"
+    },
+    {
+      "test": "Scenario G - Human Escalation Trigger",
+      "status": "PASS",
+      "details": {
+        "success": true,
+        "escalation_id": 9,
+        "queue_name": "Operations Specialist Intervention Queue",
+        "priority": "high",
+        "status": "pending",
+        "message": "Issue successfully escalated to human operations team (Escalation ID #9). An agent will review shortly."
+      },
+      "timestamp": "2026-11-19T03:06:44.037038+00:00"
+    },
+    {
+      "test": "Scenario H - Controlled Failure Handling",
+      "status": "PASS",
+      "details": {
+        "non_existent_order_status": "completed",
+        "invalid_args_handled": true
+      },
+      "timestamp": "2026-11-19T03:06:45.081876+00:00"
+    }
+  ],
+  "Database Integrity": [
+    {
+      "test": "Table Record Population (All 15 Tables Non-Empty)",
+      "status": "PASS",
+      "details": {
+        "users": 3,
+        "customers": 20,
+        "products": 20,
+        "orders": 30,
+        "order_items": 30,
+        "payments": 31,
+        "shipments": 20,
+        "return_requests": 5,
+        "refund_requests": 2,
+        "support_tickets": 10,
+        "conversations": 1,
+        "messages": 2,
+        "agent_runs": 24,
+        "approval_requests": 4,
+        "audit_logs": 4
+      },
+      "timestamp": "2026-11-19T03:06:45.114333+00:00"
+    },
+    {
+      "test": "Foreign Key Consistency (Zero Dangling Pointers)",
+      "status": "PASS",
+      "details": {
+        "dangling_order_items": 0,
+        "dangling_shipments": 0,
+        "dangling_orders": 0,
+        "dangling_payments": 0
+      },
+      "timestamp": "2026-11-19T03:06:45.131083+00:00"
+    }
+  ],
+  "Approval Workflow": [
+    {
+      "test": "Staging Pending Approval Request",
+      "status": "PASS",
+      "details": {
+        "approval_id": 5,
+        "order_id": 1
+      },
+      "timestamp": "2026-11-19T03:06:45.219341+00:00"
+    },
+    {
+      "test": "Approval Execution & Audit Logging",
+      "status": "PASS",
+      "details": {
+        "status": "approved",
+        "reviewed_by": 1,
+        "audit_action": "APPROVAL_REQUEST_APPROVED"
+      },
+      "timestamp": "2026-11-19T03:06:45.307845+00:00"
+    },
+    {
+      "test": "Approval Gate Idempotency Guard",
+      "status": "PASS",
+      "details": {
+        "prevents_double_approval": true
+      },
+      "timestamp": "2026-11-19T03:06:45.307845+00:00"
+    }
+  ],
+  "Real-Time Events": [
+    {
+      "test": "Broadcaster Pub/Sub Pipeline",
+      "status": "PASS",
+      "details": {
+        "received_type": "order.updated",
+        "received_id": "d517d972-dd74-4902-9718-4149a082c1dc"
+      },
+      "timestamp": "2026-11-19T03:06:45.312463+00:00"
+    },
+    {
+      "test": "Agent Events Persistence (agent_events table)",
+      "status": "PASS",
+      "details": {
+        "total_events_stored": 192,
+        "sample_event_type": "agent.started"
+      },
+      "timestamp": "2026-11-19T03:06:45.317355+00:00"
+    }
+  ],
+  "Security & RBAC": [
+    {
+      "test": "JWT Token Generation & Verification",
+      "status": "PASS",
+      "details": {
+        "role": "admin",
+        "expires_in_hours": 8
+      },
+      "timestamp": "2026-11-19T03:06:45.317897+00:00"
+    },
+    {
+      "test": "Bcrypt Password Hashing & Salt Verification",
+      "status": "PASS",
+      "details": {
+        "valid_matches": true,
+        "invalid_rejected": true
+      },
+      "timestamp": "2026-11-19T03:06:46.008328+00:00"
+    },
+    {
+      "test": "Role-Based Access Control Segregation",
+      "status": "PASS",
+      "details": {
+        "admin": "admin",
+        "agent": "operations_agent",
+        "customer": "customer"
+      },
+      "timestamp": "2026-11-19T03:06:46.012145+00:00"
+    },
+    {
+      "test": "SQL Injection Resistance (SQLAlchemy Parameterization)",
+      "status": "PASS",
+      "details": {
+        "attempt_handled_safely": true
+      },
+      "timestamp": "2026-11-19T03:06:46.013784+00:00"
+    }
+  ],
+  "UI Screen Live APIs": [
+    {
+      "test": "Overview: GET /analytics/overview",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 1
+      },
+      "timestamp": "2026-11-19T03:06:46.150571+00:00"
+    },
+    {
+      "test": "Overview: GET /analytics/trends",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 14
+      },
+      "timestamp": "2026-11-19T03:06:46.183495+00:00"
+    },
+    {
+      "test": "Orders: GET /orders",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 10
+      },
+      "timestamp": "2026-11-19T03:06:46.222007+00:00"
+    },
+    {
+      "test": "Payments: GET /payments",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 10
+      },
+      "timestamp": "2026-11-19T03:06:46.240167+00:00"
+    },
+    {
+      "test": "Shipments: GET /shipments",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 10
+      },
+      "timestamp": "2026-11-19T03:06:46.261270+00:00"
+    },
+    {
+      "test": "Returns: GET /returns",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 5
+      },
+      "timestamp": "2026-11-19T03:06:46.289596+00:00"
+    },
+    {
+      "test": "Refunds: GET /refunds",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 2
+      },
+      "timestamp": "2026-11-19T03:06:46.323205+00:00"
+    },
+    {
+      "test": "Tickets: GET /tickets",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 10
+      },
+      "timestamp": "2026-11-19T03:06:46.338399+00:00"
+    },
+    {
+      "test": "Approvals: GET /approvals",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 5
+      },
+      "timestamp": "2026-11-19T03:06:46.355346+00:00"
+    },
+    {
+      "test": "Knowledge: GET /knowledge/documents",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 0
+      },
+      "timestamp": "2026-11-19T03:06:46.376353+00:00"
+    },
+    {
+      "test": "Knowledge: GET /knowledge/search",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 1
+      },
+      "timestamp": "2026-11-19T03:06:46.401558+00:00"
+    },
+    {
+      "test": "Audit Logs: GET /audit-logs",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 5
+      },
+      "timestamp": "2026-11-19T03:06:46.413429+00:00"
+    },
+    {
+      "test": "Escalations: GET /escalations",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 9
+      },
+      "timestamp": "2026-11-19T03:06:46.452581+00:00"
+    },
+    {
+      "test": "Agent: GET /agent/runs",
+      "status": "PASS",
+      "details": {
+        "status_code": 200,
+        "items_returned": 10
+      },
+      "timestamp": "2026-11-19T03:06:46.487870+00:00"
+    },
+    {
+      "test": "RBAC Security: Customer Blocked from Approvals (403)",
+      "status": "PASS",
+      "details": {
+        "status_code": 403
+      },
+      "timestamp": "2026-11-19T03:06:46.501080+00:00"
+    }
+  ]
+}

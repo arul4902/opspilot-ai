@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment and Secrets
+.env
+*.env.local
+
+# Databases and Chroma
+*.db
+*.sqlite
+*.sqlite3
+chroma_storage/
+
+# Node / Angular
+node_modules/
+frontend/dist/
+frontend/.angular/
+.npm
+npm-debug.log*
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+

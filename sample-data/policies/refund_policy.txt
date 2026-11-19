@@ -1,0 +1,30 @@
+================================================================================
+ENTERPRISE OPERATIONAL POLICY: REFUND ISSUANCE & FINANCIAL WORKFLOWS
+Document ID: POL-REF-2026-v2
+Effective Date: January 1, 2026
+Applicability: Financial reversals, credits, and dispute resolutions across all payment rails.
+================================================================================
+
+1. STANDARD REFUND EXECUTION TIMELINES
+Approved refunds are processed to the original payment method utilized at checkout (Credit Card, Debit Card, PayPal, Apple Pay, Bank Transfer).
+- Credit and Debit Cards: 3 to 5 business days for bank ledger posting depending on the issuer.
+- PayPal and Digital Wallets: 1 business day or immediate wallet balance credit.
+- Direct ACH / Net Banking: 5 to 7 business days for inter-bank clearing.
+
+2. HUMAN-IN-THE-LOOP APPROVAL THRESHOLDS
+To prevent automated fraud and unauthorized capital depletion, all refund actions operate under strict role-based controls:
+- Tier 1 (Automated AI Recommendation): AI agents can validate eligibility, calculate permissible amounts, and create pending refund requests.
+- Tier 2 (Mandatory Human Operator Approval): ANY refund exceeding $0.00 must be reviewed and approved by an authorized Operations Manager before financial disbursement occurs.
+- Tier 3 (Senior Director Approval): Any high-value refund exceeding $500.00 or repeated customer refund claims (>3 refunds within 90 days) requires dual authorization.
+
+3. SIMULATED REFUND PROCESSING GUARANTEE
+In sandbox and staging environments, financial refunds are executed via internal simulated gateway calls.
+Every simulated refund creates an immutable audit log, decrements order ledger balances, issues a simulated gateway reference code, and notifies the customer via simulated dispatch channels. Real financial settlement rails are never invoked without sandbox bypass flags.
+
+4. DUPLICATE REFUND RESTRICTIONS
+An order cannot possess more than one active, pending, or approved refund request. The backend repository strictly validates existing transaction IDs and order IDs to reject duplicate requests with an immediate 400 Bad Request error.
+
+5. PARTIAL REFUNDS & SHIPPING RESTITUTION
+If an order included multiple items and only a single item is returned, refund amounts are prorated based strictly on the line-item value.
+Outbound shipping fees are non-refundable unless the return is precipitated by a verified operational shipping SLA breach, delivery damage, or merchant fulfillment error.
+

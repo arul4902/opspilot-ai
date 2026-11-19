@@ -1,0 +1,33 @@
+================================================================================
+ENTERPRISE OPERATIONAL POLICY: CUSTOMER RETURNS & EXCHANGES
+Document ID: POL-RET-2026-v2
+Effective Date: January 1, 2026
+Applicability: All consumer orders dispatched through OpsPilot fulfillment networks.
+================================================================================
+
+1. GENERAL RETURN WINDOW & ELIGIBILITY CRITERIA
+Customers have exactly 30 calendar days from the verified carrier delivery timestamp to initiate a return request for eligible items. 
+The system evaluates the return window automatically using the actual delivery date recorded by the courier API. If carrier tracking lacks an actual delivery event, the estimated delivery date is utilized as the baseline date.
+
+2. PRODUCT CONDITION REQUIREMENTS
+To qualify for a standard return and restitution of purchase funds:
+- Items must remain in brand new, unworn, unwashed, and unmarred condition.
+- Original product tags, protective films, barcodes, and serial number labels must remain affixed.
+- All original packaging, accessories, manuals, and warranty cards must be included in the return parcel.
+
+3. EXCLUSIONS FROM STANDARD RETURN
+The following product classes are non-returnable unless arrived dead-on-arrival (DOA) or structurally defective:
+- Intimate apparel, swimwear, and sanitary hygiene products once packaging seals are broken.
+- Customized, monogrammed, or made-to-order personalized goods.
+- Downloadable digital goods, software licenses, or unsealed media cards.
+- Consumable perishables and liquid health supplements.
+
+4. RETURN SHIPPING LABELS & TRANSIT
+Once a return request is approved by the system or authorized by an operations manager, a prepaid carrier return label (USPS / FedEx / UPS) is automatically generated and emailed to the customer.
+Returned goods must be scanned by the courier within 14 calendar days of label generation; otherwise, the return authorization expires and the order status is restored.
+Return shipping fees are complimentary ($0.00) for defective items, incorrect shipments, or orders covered under OpsPilot Prime Care. For remorse or sizing exchanges, a standard $5.99 restocking and return label fee is deducted from the final credit.
+
+5. INSPECTION & INTAKE PROTOCOL
+Upon arrival at the central warehouse facility, the parcel undergoes a physical intake barcode scan and optical inspection within 2 business days.
+If items meet all condition criteria, the system triggers the automated refund workflow or issues replacement fulfillment immediately.
+

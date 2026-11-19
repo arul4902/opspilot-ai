@@ -1,0 +1,21 @@
+================================================================================
+ENTERPRISE OPERATIONAL POLICY: DAMAGED, DEFECTIVE & DEAD-ON-ARRIVAL (DOA) ITEMS
+Document ID: POL-QA-2026-v2
+Effective Date: January 1, 2026
+Applicability: Quality assurance claims, damaged shipping cartons, defective merchandise.
+================================================================================
+
+1. REPORTING WINDOW FOR DAMAGED SHIPMENTS
+Customers who receive parcels with visible exterior damage, smashed cartons, broken security seals, or defective components must report the incident within 14 calendar days of verified carrier delivery.
+
+2. EVIDENCE SUBMISSION PROTOCOL
+To accelerate claim resolution without requiring postal fraud investigations:
+- Photographic Evidence: Customer provides clear photographs of external shipping box, carrier label, and damaged product/serial number.
+- Batch & Serial Inspection: Operations logs serial numbers in QA database to track potential manufacturing lot anomalies.
+
+3. IMMEDIATE REMEDIATION OPTIONS
+Upon receipt of damage confirmation:
+- Replacement Fulfillment: An expedited replacement unit is dispatched at zero cost within 24 hours. The customer is supplied with a complimentary prepaid return label to return the damaged item within 30 days.
+- Full Immediate Refund: If the customer declines a replacement or if inventory is depleted, a 100% full refund (including original shipping fees) is initiated.
+- Return Waiver: For low-value items (under $25.00 retail) or glass items presenting a safety hazard, the operations agent may waive the physical return requirement entirely.
+

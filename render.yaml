@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: opspilot-ai-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt && python -m scripts.ingest_policies && python -m scripts.seed_database
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: opspilot-postgres
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: BACKEND_CORS_ORIGINS
+        value: '["https://opspilot-ai.vercel.app","http://localhost:4200"]'
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false
+
+databases:
+  - name: opspilot-postgres
+    databaseName: opspilot
+    user: opspilot_user
+    plan: free
+

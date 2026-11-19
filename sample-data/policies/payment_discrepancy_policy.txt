@@ -1,0 +1,30 @@
+================================================================================
+ENTERPRISE OPERATIONAL POLICY: PAYMENT DISCREPANCIES & ORPHAN TRANSACTIONS
+Document ID: POL-PAY-2026-v2
+Effective Date: January 1, 2026
+Applicability: Failed checkout sessions, orphan bank charges, duplicate authorizations.
+================================================================================
+
+1. ORPHAN PAYMENT TRANSACTIONS (CHECKOUT DROP-OFFS)
+An 'Orphan Payment' is defined as a transaction where customer payment was successfully authorized and captured by the acquiring bank (Stripe, Adyen, PayPal), but no corresponding order record was materialized in the OpsPilot database due to:
+- Network drop or browser session timeout prior to webhook execution.
+- High database lock latency at peak traffic preventing order persistence.
+- Client-side navigation away from payment confirmation portal.
+
+2. INVESTIGATION PROCEDURE FOR PAYMENT_DEDUCTED_ORDER_MISSING
+When a customer reports an unauthorized or unconfirmed deduction:
+1. Operations agent queries payment logs using Transaction Reference (e.g., TXN-2024-XXXXXX) or customer email.
+2. Verify gateway transaction status: Must confirm status = 'successful' and amount captured.
+3. Check order mapping: Confirm order_id IS NULL or order status = 'missing'.
+4. Cross-check fraud scoring: Ensure transaction passed 3DS authentication and AVS address matching.
+
+3. RESOLUTION TIMELINE & RECOVERY
+Once an orphan transaction is verified:
+- Option A (Automatic Order Recovery): If inventory items are still in stock, the operations team triggers manual order creation with zero additional charge.
+- Option B (Immediate Financial Reversal): If items are depleted or customer prefers cancellation, operations initiates an immediate priority refund.
+- Policy SLA: All orphan transaction inquiries must be acknowledged and resolved within 24 hours of reporting.
+
+4. FAILED PAYMENTS & DECLINED ATTEMPTS
+Transactions marked as 'failed' or 'declined' represent zero funds transferred to OpsPilot merchant accounts. 
+Agents must explain the specific gateway reason code (e.g., 'insufficient_funds', 'do_not_honor', 'expired_card') and provide the customer with a secure one-click checkout retry link. Temporary pending authorizations on the customer card will drop off within 48 to 72 hours per bank regulations.
+
