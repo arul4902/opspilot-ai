@@ -1,5 +1,5 @@
 import os
-from typing import List, Union
+from typing import List, Union, Optional
 from pydantic import AnyHttpUrl, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -17,6 +17,14 @@ class Settings(BaseSettings):
 
     # Database
     DATABASE_URL: str = "sqlite:///./opspilot.db"
+
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def assemble_database_url(cls, v: Optional[str]) -> str:
+        url = v or "sqlite:///./opspilot.db"
+        if (os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME")) and url.startswith("sqlite:///."):
+            return "sqlite:////tmp/opspilot.db"
+        return url
 
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = [
@@ -46,6 +54,15 @@ class Settings(BaseSettings):
 
     # RAG Settings
     CHROMA_PERSIST_DIRECTORY: str = "./chroma_storage"
+
+    @field_validator("CHROMA_PERSIST_DIRECTORY", mode="before")
+    @classmethod
+    def assemble_chroma_dir(cls, v: Optional[str]) -> str:
+        d = v or "./chroma_storage"
+        if (os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME")) and d.startswith("."):
+            return "/tmp/chroma_storage"
+        return d
+
     EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"
 
     # Operations & Agent Guardrails

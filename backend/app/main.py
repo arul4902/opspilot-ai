@@ -17,6 +17,16 @@ async def lifespan(app: FastAPI):
     if not os.environ.get("TESTING"):
         logger.info("Initializing database schema...")
         Base.metadata.create_all(bind=engine)
+        try:
+            from backend.app.database.session import SessionLocal
+            from backend.app.models.models import User
+            with SessionLocal() as db:
+                if db.query(User).count() == 0:
+                    logger.info("Database empty, running initial seed for demo accounts & orders...")
+                    from scripts.seed_database import seed_database
+                    seed_database(target_engine=engine)
+        except Exception as e:
+            logger.warning(f"Database auto-seed check skipped or encountered error: {e}")
     logger.info(f"{settings.PROJECT_NAME} initialized successfully. Running in {settings.ENVIRONMENT} mode.")
     yield
     # Shutdown
@@ -34,9 +44,12 @@ app = FastAPI(
 )
 
 # CORS Middleware
+cors_origins = [o for o in settings.BACKEND_CORS_ORIGINS if o != "*"]
+allow_regex = r".*" if "*" in settings.BACKEND_CORS_ORIGINS else None
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origins=cors_origins,
+    allow_origin_regex=allow_regex,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
