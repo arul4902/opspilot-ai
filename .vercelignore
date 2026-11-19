@@ -1,0 +1,14 @@
+.git
+.github
+venv/
+.venv/
+.pytest_cache/
+documentation/
+backend/tests/
+*.db
+*.sqlite
+*.sqlite3
+__pycache__/
+*.pyc
+frontend/node_modules/
+frontend/.angular/
