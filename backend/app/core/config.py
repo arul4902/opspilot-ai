@@ -24,7 +24,18 @@ class Settings(BaseSettings):
         "http://127.0.0.1:4200",
         "http://localhost:8000",
         "http://127.0.0.1:8000",
+        "https://opspilot-ai.vercel.app",
+        "*"
     ]
+
+    @field_validator("BACKEND_CORS_ORIGINS", mode="before")
+    @classmethod
+    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        if isinstance(v, str) and not v.startswith("["):
+            return [i.strip() for i in v.split(",") if i.strip()]
+        elif isinstance(v, (list, str)):
+            return v
+        raise ValueError(v)
 
     # LLM Settings
     LLM_PROVIDER: str = "mock"  # "mock", "gemini", "openai"
