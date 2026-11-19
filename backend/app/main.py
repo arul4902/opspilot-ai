@@ -12,21 +12,9 @@ from backend.app.api.v1.api import api_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: ensure tables exist when not running test suites
-    import os
-    if not os.environ.get("TESTING"):
-        logger.info("Initializing database schema...")
-        Base.metadata.create_all(bind=engine)
-        try:
-            from backend.app.database.session import SessionLocal
-            from backend.app.models.models import User
-            with SessionLocal() as db:
-                if db.query(User).count() == 0:
-                    logger.info("Database empty, running initial seed for demo accounts & orders...")
-                    from scripts.seed_database import seed_database
-                    seed_database(target_engine=engine)
-        except Exception as e:
-            logger.warning(f"Database auto-seed check skipped or encountered error: {e}")
+    # Startup: ensure tables exist and database is initialized
+    from backend.app.database.session import ensure_database_initialized
+    ensure_database_initialized()
     logger.info(f"{settings.PROJECT_NAME} initialized successfully. Running in {settings.ENVIRONMENT} mode.")
     yield
     # Shutdown
